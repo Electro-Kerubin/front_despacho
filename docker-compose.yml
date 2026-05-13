@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: front_despacho
+    restart: unless-stopped
+    ports:
+      - "3.148.208.175:80"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - nginx_logs:/var/log/nginx
+
+volumes:
+  nginx_logs:
+    driver: local
