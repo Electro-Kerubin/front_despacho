@@ -16,7 +16,7 @@ RUN npm run build
 # ================================
 FROM nginx:stable-alpine AS runner
 
-RUN groupadd -r frontdespacho && useradd -r -g frontdespacho frontdespacho
+RUN addgroup -S frontdespacho && adduser -S frontdespacho -G frontdespacho
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
