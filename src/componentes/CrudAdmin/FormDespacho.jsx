@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { ENDPOINTS, API_HEADERS } from "../../services/apiConfig";
 
 export const FormDespacho = ({ venta, onClose }) => {
   const { register, handleSubmit } = useForm();
@@ -24,22 +25,20 @@ export const FormDespacho = ({ venta, onClose }) => {
     console.log("Datos del formulario:", jsonData);
 
     try {
+      // Actualizar venta en backend de ventas
       await axios.put(
-        `http://192.168.30/api/v1/ventas/${venta.idVenta}`,
+        `${ENDPOINTS.UPDATE_VENTA}/${venta.idVenta}`,
         jsonDataSales,
         {
-          headers:{
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-      }
+          headers: API_HEADERS,
         }
       );
-      await axios.post("http://192.168.320/api/v1/despachos", jsonData, {
-        headers:{
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-    }
+      
+      // Crear despacho en backend de despachos
+      await axios.post(ENDPOINTS.CREATE_DESPACHO, jsonData, {
+        headers: API_HEADERS,
       });
+      
       Swal.fire({
         title: "Despacho registrado 🛻!",
         text: "El despacho ha sido generado con éxito en la base de datos",
@@ -48,9 +47,16 @@ export const FormDespacho = ({ venta, onClose }) => {
       });
     } catch (error) {
       console.error("Error en la solicitud:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un error al crear el despacho. Verifica la consola.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     }
     onClose();
   };
+  
   return (
     <>
       <form

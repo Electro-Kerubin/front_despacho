@@ -2,23 +2,23 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Modal } from "./Modal";
 import { FormCierreDespacho } from "./FormCierreDespacho";
+import { ENDPOINTS, API_HEADERS } from "../../services/apiConfig";
 
 export const TableDespachos = () => {
   const [despachos, setDespachos] = useState([]);
 
   const despacho = async () => {
-    await axios
-      .get("http://192.168.3.20/api/v1/despachos", {
-        headers:{
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-        }
-      })
-      .then((response) => {
-        console.log(response.data);
-        setDespachos(response.data);
+    try {
+      const response = await axios.get(ENDPOINTS.GET_DESPACHOS, {
+        headers: API_HEADERS,
       });
+      console.log(response.data);
+      setDespachos(response.data);
+    } catch (error) {
+      console.error("Error fetching despachos:", error);
+    }
   };
+
   // Llamada a la función para obtener los datos cuando el componente se monta
   useEffect(() => {
     despacho();
@@ -51,40 +51,39 @@ export const TableDespachos = () => {
               </thead>
               <tbody>
                 {despachos
-               
-                .map((despacho) => (
-                  <tr key={despacho.idDespacho}>
-                    <td className="pr-10 py-10 items-center">{despacho.idDespacho}</td>
-                    <td className="pr-10 py-10  items-center">
-                      {despacho.idCompra}
-                    </td>
-                    <td className="pr-10 py-10  items-center">
-                      {despacho.direccionCompra}
-                    </td>
-                    <td className="pr-10 py-10  items-center">
-                      {despacho.fechaDespacho}
-                    </td>
-                    <td className="pr-10 py-10  items-center">
-                      {despacho.patenteCamion}
-                    </td>
-                    <td className="pr-10 py-10  items-center">
-                      {despacho.entregado
-                        ? "Despacho entregado"
-                        : "Despacho pendiente"}
-                    </td>
-                    <td className="pr-10 py-10  items-center">
-                      {despacho.intento}
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => handleAbrirModal(despacho)}
-                        className="py-1 bg-orange-200 px-8 rounded-xl shadow-md hover:bg-orange-300/70 transition-all duration-300 "
-                      >
-                        Cerrar despacho
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                  .map((despacho) => (
+                    <tr key={despacho.idDespacho}>
+                      <td className="pr-10 py-10 items-center">{despacho.idDespacho}</td>
+                      <td className="pr-10 py-10  items-center">
+                        {despacho.idCompra}
+                      </td>
+                      <td className="pr-10 py-10  items-center">
+                        {despacho.direccionCompra}
+                      </td>
+                      <td className="pr-10 py-10  items-center">
+                        {despacho.fechaDespacho}
+                      </td>
+                      <td className="pr-10 py-10  items-center">
+                        {despacho.patenteCamion}
+                      </td>
+                      <td className="pr-10 py-10  items-center">
+                        {despacho.entregado
+                          ? "Despacho entregado"
+                          : "Despacho pendiente"}
+                      </td>
+                      <td className="pr-10 py-10  items-center">
+                        {despacho.intento}
+                      </td>
+                      <td>
+                        <button
+                          onClick={() => handleAbrirModal(despacho)}
+                          className="py-1 bg-orange-200 px-8 rounded-xl shadow-md hover:bg-orange-300/70 transition-all duration-300 "
+                        >
+                          Cerrar despacho
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

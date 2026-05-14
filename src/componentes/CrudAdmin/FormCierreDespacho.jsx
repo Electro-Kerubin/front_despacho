@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { ENDPOINTS, API_HEADERS } from "../../services/apiConfig";
 
 export const FormCierreDespacho = ({ despacho, onClose }) => {
   const { register, handleSubmit } = useForm();
@@ -16,13 +17,10 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
 
     try {
       await axios.put(
-        `http://192.168.320/api/v1/despachos/${despacho.idDespacho}`,
+        `${ENDPOINTS.UPDATE_DESPACHO}/${despacho.idDespacho}`,
         jsonData,
         {
-          headers:{
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-      }
+          headers: API_HEADERS,
         }
       );
       Swal.fire({
@@ -33,6 +31,12 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
       });
     } catch (error) {
       console.error("Error en la solicitud:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un error al modificar el despacho. Verifica la consola.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     }
     onClose();
   };
