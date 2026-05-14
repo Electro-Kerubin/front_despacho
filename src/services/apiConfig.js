@@ -1,18 +1,18 @@
 // Configuración centralizada de URLs de APIs
 const API_CONFIG = {
-  VENTAS_API: 'http://10.0.156.240:8082',
-  DESPACHOS_API: 'http://10.0.134.20:8081',
+  VENTAS_API: '',    // relativo — pasa por Nginx
+  DESPACHOS_API: '', // relativo — pasa por Nginx
 };
 
 export const ENDPOINTS = {
   // Endpoints Ventas Backend
-  GET_VENTAS: `${API_CONFIG.VENTAS_API}/api/v1/ventas`,
-  UPDATE_VENTA: `${API_CONFIG.VENTAS_API}/api/v1/ventas`,
+  GET_VENTAS: `/api/v1/ventas`,
+  UPDATE_VENTA: `/api/v1/ventas`,
   
   // Endpoints Despachos Backend
-  GET_DESPACHOS: `${API_CONFIG.DESPACHOS_API}/api/v1/despachos`,
-  CREATE_DESPACHO: `${API_CONFIG.DESPACHOS_API}/api/v1/despachos`,
-  UPDATE_DESPACHO: `${API_CONFIG.DESPACHOS_API}/api/v1/despachos`,
+  GET_DESPACHOS: `/api/v1/despachos`,
+  CREATE_DESPACHO: `/api/v1/despachos`,
+  UPDATE_DESPACHO: `/api/v1/despachos`,
 };
 
 export const API_HEADERS = {
